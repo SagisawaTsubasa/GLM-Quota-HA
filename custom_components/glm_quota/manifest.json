@@ -7,6 +7,6 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/SagisawaTsubasa/GLM-Quota-HA/issues",
   "loggers": ["custom_components.glm_quota"],
-  "requirements": ["cryptography>=39.0"],
-  "version": "1.0.0"
+  "requirements": [],
+  "version": "1.0.1"
 }

@@ -9,3 +9,4 @@ tests/
 .venv/
 .idea/
 .vscode/
+.github/workflows/pytest.yml

@@ -10,13 +10,19 @@ from homeassistant.const import CONF_SCAN_INTERVAL, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 
-from .const import CONF_API_KEY, DEFAULT_SCAN_INTERVAL, DOMAIN
+from .const import (
+    CONF_API_KEY,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    MAX_SCAN_INTERVAL,
+    MIN_SCAN_INTERVAL,
+)
 from .coordinator import GlmQuotaCoordinator
 from .crypto import async_get_fernet, decrypt_key
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = [Platform.SENSOR]
+PLATFORMS = [Platform.SENSOR, Platform.SWITCH, Platform.BUTTON]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -44,6 +50,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             DEFAULT_SCAN_INTERVAL,
         )
         scan_interval = DEFAULT_SCAN_INTERVAL
+    if not MIN_SCAN_INTERVAL <= scan_interval <= MAX_SCAN_INTERVAL:
+        # 应用内流程不会产生越界值；手工改 .storage 直改才会走到这里
+        _LOGGER.warning(
+            "scan_interval 超出允许范围（%d），钳制到 %d~%d 秒",
+            scan_interval,
+            MIN_SCAN_INTERVAL,
+            MAX_SCAN_INTERVAL,
+        )
+        scan_interval = max(MIN_SCAN_INTERVAL, min(MAX_SCAN_INTERVAL, scan_interval))
     coordinator = GlmQuotaCoordinator(hass, entry, api_key, scan_interval)
     await coordinator.async_config_entry_first_refresh()
 

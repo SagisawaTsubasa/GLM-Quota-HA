@@ -80,12 +80,36 @@ class GlmQuotaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     ) -> None:
         """初始化；api_key 为调用方解密后的明文，仅驻留内存。"""
         self.api_key = api_key
+        self.scan_interval = scan_interval
+        self.auto_polling = True
         super().__init__(
             hass,
             _LOGGER,
             config_entry=entry,
             name=DOMAIN,
             update_interval=timedelta(seconds=scan_interval),
+        )
+
+    def set_auto_polling(self, enabled: bool) -> None:
+        """巡查模式：开=按 scan_interval 自动轮询；关=手动模式（停定时轮询）。
+
+        手动模式下仍可经 async_request_refresh 即时拉取（button 实体）。
+        update_interval=None 时 _schedule_refresh 直接返回（2026.1.3 实证）。
+        关→开：update_interval setter 只存值不重挂调度（2026.1.3 实证），
+        手动模式下也没有待触发的刷新，故补一次 request_refresh——其完成
+        尾部的 _schedule_refresh 会以新 interval 重挂轮询。
+        开→关：至多残留一次已挂定的定时刷新（有界，随后停止）。
+        """
+        self.auto_polling = enabled
+        self.update_interval = (
+            timedelta(seconds=self.scan_interval) if enabled else None
+        )
+        if enabled:
+            # async_request_refresh 内部消化 UpdateFailed，不会抛
+            self.hass.async_create_task(self.async_request_refresh())
+        self.async_update_listeners()
+        _LOGGER.info(
+            "巡查模式切换：%s", "自动轮询" if enabled else "手动查询"
         )
 
     async def _async_update_data(self) -> dict[str, Any]:

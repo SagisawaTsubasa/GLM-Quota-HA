@@ -12,10 +12,10 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import PERCENTAGE
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from . import entity
 from .const import DOMAIN, FIVE_HOUR, WEEKLY
 from .coordinator import GlmQuotaCoordinator
 from .parse import WindowUsage
@@ -57,16 +57,7 @@ class GlmQuotaSensor(CoordinatorEntity[GlmQuotaCoordinator], SensorEntity):
         self._attr_translation_key = slot
         self._attr_unique_id = f"glm_quota_{slot}_{entry.entry_id}"
         self._attr_icon = _ICONS[slot]
-        # 设备名带 key 指纹后缀，多账号多 entry 时可区分
-        fingerprint = (entry.unique_id or "").removeprefix("glm_")
-        device_name = f"GLM Coding Plan ({fingerprint})" if fingerprint else "GLM Coding Plan"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
-            name=device_name,
-            manufacturer="Zhipu AI",
-            model="Coding Plan",
-            entry_type=DeviceEntryType.SERVICE,
-        )
+        self._attr_device_info = entity.device_info_for(entry)
 
     @property
     def _window(self) -> WindowUsage | None:

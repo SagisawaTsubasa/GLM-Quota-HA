@@ -251,7 +251,14 @@ def parse_subscription(payload: Any) -> dict[str, str | None]:
     end_part = None
     if isinstance(valid_str, str):
         match = _VALID_END_RE.search(valid_str)
-        end_part = match.group(1) if match else valid_str
+        if match:
+            end_part = match.group(1)
+        else:
+            # 正则不匹配（智谱改了格式）：回落原文但必须留痕，不静默
+            _LOGGER.debug(
+                "订阅 valid 尾段解析未匹配，按原文返回: %r", valid_str
+            )
+            end_part = valid_str
     renew = valid.get("nextRenewTime")
     return {
         "plan_name": valid.get("productName")

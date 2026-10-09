@@ -44,6 +44,16 @@
       "weekly": {
         "name": "周限额已用"
       }
+    },
+    "switch": {
+      "auto_polling": {
+        "name": "自动轮询"
+      }
+    },
+    "button": {
+      "manual_refresh": {
+        "name": "手动查询"
+      }
     }
   }
 }

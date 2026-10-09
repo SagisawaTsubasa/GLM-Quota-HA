@@ -44,6 +44,16 @@
       "weekly": {
         "name": "Weekly quota used"
       }
+    },
+    "switch": {
+      "auto_polling": {
+        "name": "Auto polling"
+      }
+    },
+    "button": {
+      "manual_refresh": {
+        "name": "Query now"
+      }
     }
   }
 }

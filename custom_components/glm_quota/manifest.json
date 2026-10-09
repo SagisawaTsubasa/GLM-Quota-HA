@@ -8,5 +8,5 @@
   "issue_tracker": "https://github.com/SagisawaTsubasa/GLM-Quota-HA/issues",
   "loggers": ["custom_components.glm_quota"],
   "requirements": [],
-  "version": "1.0.1"
+  "version": "1.1.0"
 }

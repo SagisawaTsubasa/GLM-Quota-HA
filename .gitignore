@@ -2,3 +2,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.egg-info/
+
+# ---- 2026-10-09 仓库整理：测试源码移 project-tests ----
+tests/
+.ruff_cache/
+.venv/
+.idea/
+.vscode/

@@ -1,0 +1,49 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "GLM Coding Plan 限额",
+        "description": "输入智谱开放平台（open.bigmodel.cn）的 API Key，需为已订阅 GLM Coding Plan 的账号。密钥将以 Fernet 加密后存储，.storage 中不落明文。",
+        "data": {
+          "api_key": "API Key"
+        }
+      },
+      "reauth_confirm": {
+        "title": "重新认证 GLM Coding Plan",
+        "description": "请为 {name} 重新输入有效的 API Key。",
+        "data": {
+          "api_key": "API Key"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API Key 无效或已过期",
+      "cannot_connect": "无法连接智谱接口，请稍后再试",
+      "no_plan": "该账号没有有效的 GLM Coding Plan 订阅限额",
+      "unknown": "接口返回了无法识别的数据"
+    },
+    "abort": {
+      "already_configured": "此 API Key 已配置过",
+      "reauth_successful": "重新认证成功"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "轮询间隔（秒）"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "five_hour": {
+        "name": "5小时窗口已用"
+      },
+      "weekly": {
+        "name": "周限额已用"
+      }
+    }
+  }
+}

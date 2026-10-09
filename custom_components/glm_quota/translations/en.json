@@ -1,0 +1,49 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "GLM Coding Plan Quota",
+        "description": "Enter the API key of your Zhipu Open Platform (open.bigmodel.cn) account with an active GLM Coding Plan subscription. The key is encrypted with Fernet before being stored.",
+        "data": {
+          "api_key": "API Key"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate GLM Coding Plan",
+        "description": "Enter a valid API key for {name}.",
+        "data": {
+          "api_key": "API Key"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid or expired API Key",
+      "cannot_connect": "Failed to connect to the Zhipu API, try again later",
+      "no_plan": "This account has no active GLM Coding Plan quota",
+      "unknown": "The API returned unrecognized data"
+    },
+    "abort": {
+      "already_configured": "This API Key is already configured",
+      "reauth_successful": "Re-authentication was successful"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "five_hour": {
+        "name": "5-hour window used"
+      },
+      "weekly": {
+        "name": "Weekly quota used"
+      }
+    }
+  }
+}

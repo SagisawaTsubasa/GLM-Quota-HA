@@ -1,0 +1,6 @@
+{
+  "name": "GLM Quota",
+  "render_readme": true,
+  "homeassistant": "2026.1.3",
+  "country": ["CN"]
+}

@@ -10,3 +10,5 @@ tests/
 .idea/
 .vscode/
 .github/workflows/pytest.yml
+
+.zcode/
